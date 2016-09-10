@@ -1,0 +1,15 @@
+{
+  "author": "Aaron Ramshaw",
+  "name": "hue-clapper",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git"
+  },
+  "engines": {
+    "node": ">=0.12"
+  },
+  "dependencies": {
+    "clap-detector": "0.4.0"
+  }
+}
