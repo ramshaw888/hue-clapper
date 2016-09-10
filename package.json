@@ -1,12 +1,12 @@
 {
   "author": "Aaron Ramshaw",
   "name": "hue-clapper",
-  "description": "Clap your hands to turn on the lights",
+  "description": "Clap to turn on the lights",
   "version": "0.0.1",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git"
+    "url": "git@github.com:ramshaw888/hue-clapper.git"
   },
   "engines": {
     "node": ">=0.12"
@@ -15,5 +15,8 @@
     "clap-detector": "0.4.0",
     "request": "2.74.0",
     "config.json": "0.0.4"
+  },
+  "scripts": {
+    "start": "node app.js"
   }
 }
