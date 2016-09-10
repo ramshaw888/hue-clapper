@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "clap-detector": "0.4.0",
-    "request": "2.74.0"
+    "request": "2.74.0",
+    "config.json": "0.0.4"
   }
 }

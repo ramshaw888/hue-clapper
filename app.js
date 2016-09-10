@@ -1,21 +1,22 @@
 var clapDetector = require('clap-detector');
 var request = require('request');
+var config = require('config.json')('./config.json');
 
-const user = 'NceTzVAJIG5dkG-Hypk177k8cRFldoiAJxa3Tc8P';
-const bridge = 'http://192.168.0.13/api';
+const userConfig = {
+  user: config.username,
+  api: config.bridge + '/api'
+};
 
 const clapConfig = {
-  AUDIO_SOURCE: 'coreaudio default', // OS X default
-  CLAP_AMPLITUDE_THRESHOLD: 0.4,
+  AUDIO_SOURCE: config.audioSource,
+  CLAP_AMPLITUDE_THRESHOLD: config.threshold
 };
 
 var state = false;
 var ids = {};
 
-console.log('Welcome to Hue Clapper')
-
 request.get({
-  url: bridge + user + '/lights'
+  url: userConfig.api + userConfig.user + '/lights'
 }, (error, response) => {
   const lights = JSON.parse(response.body);
   ids = Object.keys(lights);
@@ -24,7 +25,6 @@ request.get({
 
 
 function beginClap() {
-  console.log('begin');
   clapDetector.start(clapConfig);
   clapDetector.onClap(toggleLights.bind(this));
 }
@@ -41,7 +41,7 @@ function setLights(ids, on) {
         'on': on 
       };
       request.put({
-        url: bridge + user + '/lights/' + i + '/state',
+        url: userConfig.api + userConfig.user + '/lights/' + i + '/state',
         json: onCommand
       }, (error, response) => {
         console.log(response.body);
