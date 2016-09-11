@@ -8,7 +8,7 @@ class PhilipsHue {
   }
 
   initialiseLights(done) {
-    const getLightsURL = this.bridgeIP + '/api' + this.username + '/lights';
+    const getLightsURL = `${this.bridgeIP}/api${this.username}/lights`;
 
     request.get({
       url: getLightsURL,
@@ -25,7 +25,7 @@ class PhilipsHue {
   }
 
   setLights(id, value) {
-    const setLightsURL = this.bridgeIP + '/api' + this.username + '/lights' + id + '/state';
+    const setLightsURL = `${this.bridgeIP}/api${this.username}/lights/${id}/state`;
     const command  = {
       'on': value
     };
