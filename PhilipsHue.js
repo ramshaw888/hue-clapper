@@ -39,7 +39,7 @@ class PhilipsHue {
   setLight(id, state) {
     const setLightsURL = `${this.bridgeIP}/api${this.username}/lights/${id}/state`;
     const command  = {
-      'on': state
+      'on': state,
     };
     request.put({
       url: setLightsURL,

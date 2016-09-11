@@ -4,7 +4,7 @@ const PhilipsHue = require('./PhilipsHue.js');
 
 const clapConfig = {
   AUDIO_SOURCE: config.audioSource,
-  CLAP_AMPLITUDE_THRESHOLD: config.threshold
+  CLAP_AMPLITUDE_THRESHOLD: config.threshold,
 };
 
 let state = false;
