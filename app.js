@@ -1,6 +1,6 @@
-var clapDetector = require('clap-detector');
-var request = require('request');
-var config = require('config.json')('./config.json');
+const clapDetector = require('clap-detector');
+const request = require('request');
+const config = require('config.json')('./config.json');
 
 const userConfig = {
   user: config.username,
@@ -12,14 +12,15 @@ const clapConfig = {
   CLAP_AMPLITUDE_THRESHOLD: config.threshold
 };
 
-var state = false;
-var ids = {};
+let state = false;
+let ids = {};
 
 request.get({
   url: userConfig.api + userConfig.user + '/lights'
 }, (error, response) => {
   const lights = JSON.parse(response.body);
   ids = Object.keys(lights);
+  console.log('Initialisation complete');
   beginClap();
 });
 
@@ -36,7 +37,12 @@ function toggleLights() {
 
 function setLights(ids, on) {
   setTimeout(() => {
-    for (var i of ids) {
+    if (on) {
+      console.log('Turning on lights ' + ids);
+    } else {
+      console.log('Turning off lights ' + ids);
+    }
+    for (const i of ids) {
       const onCommand = {
         'on': on 
       };
@@ -44,9 +50,10 @@ function setLights(ids, on) {
         url: userConfig.api + userConfig.user + '/lights/' + i + '/state',
         json: onCommand
       }, (error, response) => {
-        console.log(response.body);
+        if (error) {
+          console.log('Failed to set light ' + i);
+        }
       });
-      console.log(i);
     }
   });
 }

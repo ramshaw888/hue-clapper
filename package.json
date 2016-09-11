@@ -17,6 +17,6 @@
     "config.json": "0.0.4"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node --use_strict app.js"
   }
 }
