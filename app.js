@@ -1,3 +1,5 @@
+"use strict";
+
 const clapDetector = require('clap-detector');
 const config = require('config.json')('./config.json');
 const PhilipsHue = require('./PhilipsHue.js');

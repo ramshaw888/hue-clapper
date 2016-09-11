@@ -16,7 +16,13 @@
     "request": "2.74.0",
     "config.json": "0.0.4"
   },
+  "devDependencies": {
+    "mocha": "3.0.2",
+    "chai": "3.5.0",
+    "sinon": "1.17.5"
+  },
   "scripts": {
-    "start": "node --use_strict app.js"
+    "start": "node app.js",
+    "test": "mocha tests/*.spec.js --watch"
   }
 }
