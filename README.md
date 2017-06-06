@@ -1,10 +1,10 @@
+Works on OS X
+
 To get started run:
 ```
 npm install
 install sox
 ```
-
-Works on OS X
 
 Add your bridge IP address to `config.json`, as well as your Hue IP address.
 
