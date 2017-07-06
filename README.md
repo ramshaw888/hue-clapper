@@ -1,10 +1,6 @@
 Works on OS X
 
-To get started run:
-```
-npm install
-install sox
-```
+To get started run `npm install` or `yarn`. Additionally you need to install [Sox](http://sox.sourceforge.net/)
 
 Add your bridge IP address to `config.json`, as well as your Hue IP address.
 
