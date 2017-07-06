@@ -9,7 +9,7 @@ const clapConfig = {
   CLAP_AMPLITUDE_THRESHOLD: config.threshold,
 };
 
-let state = false;
+let isOn = false;
 
 const philipsHue = new PhilipsHue(config.bridge, config.username);
 philipsHue.initialiseLights(beginClap);
@@ -20,6 +20,6 @@ function beginClap() {
 }
 
 function toggleLights() {
-  philipsHue.setAllLights(state);
-  state = !state;
+  philipsHue.setAllLights(isOn);
+  isOn = !isOn;
 }

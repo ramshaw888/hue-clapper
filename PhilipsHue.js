@@ -26,10 +26,10 @@ class PhilipsHue {
     return this.lights;
   }
 
-  setLight(id, state) {
+  setLight(id, isOn) {
     const setLightsURL = `${this.bridgeIP}/api${this.username}/lights/${id}/state`;
     const command  = {
-      'on': state,
+      'on': isOn,
     };
     request.put({
       url: setLightsURL,
@@ -41,8 +41,8 @@ class PhilipsHue {
     });
   }
 
-  setAllLights(state) {
-    if (state) {
+  setAllLights(isOn) {
+    if (!isOn) {
       console.log('Turning on lights ' + this.lights);
     } else {
       console.log('Turning off lights ' + this.lights);
