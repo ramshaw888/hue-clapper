@@ -9,6 +9,40 @@ class PhilipsHue {
     this.lights = [];
   }
 
+  function Light(id) {
+    this.id = id;
+    const url = `${this.bridgeIP}/api${this.username}/lights/${this.id}/state`;
+
+    function changeStateRequest(requestBody) {
+      request.put({
+        url: url,
+        json: requestBody,
+      }, 
+      (error, response) => {
+        if (error) {
+          console.log('Failed to set light ' + this.id);
+        }
+      });
+    }
+
+    this.turnOn() {
+      const requestBody = {
+        'on': true,
+      };
+
+      changeStateRequest(requestBody);
+    }
+
+    this.turnOff() {
+      const requestBody = {
+        'on' : false,
+      };
+
+      changeStateRequest(requestBody);
+    }
+
+  }
+
   initialiseLights(done) {
     const getLightsURL = `${this.bridgeIP}/api${this.username}/lights`;
 
@@ -16,42 +50,24 @@ class PhilipsHue {
       url: getLightsURL,
     }, (error, response) => {
       const lights = JSON.parse(response.body);
-      this.lights = Object.keys(lights);
+      for(const id of Object.keys(lights)){
+        this.lights.push(new Light(id));
+      }
       console.log('Initialisation complete');
       done();
     });
   }
 
-  lightsList() {
-    return this.lights;
+  turnOnLights() {
+    console.log('Turning on lights ' + this.lights);
+    this.lights.forEach((light) => { light.turnOn();});
   }
 
-  setLight(id, state) {
-    const setLightsURL = `${this.bridgeIP}/api${this.username}/lights/${id}/state`;
-    const command  = {
-      'on': state,
-    };
-    request.put({
-      url: setLightsURL,
-      json: command,
-    }, (error, response) => {
-      if (error) {
-        console.log('Failed to set light ' + id);
-      }
-    });
+  turnOffLights() {
+    console.log('Turning off lights ' + this.lights);
+    this.lights.forEach((light) => { light.turnOff();});
   }
 
-  setAllLights(state) {
-    if (state) {
-      console.log('Turning on lights ' + this.lights);
-    } else {
-      console.log('Turning off lights ' + this.lights);
-    }
-
-    for (const light of this.lights) {
-      this.setLight(light, state);
-    }
-  }
 }
 
 module.exports = PhilipsHue;
