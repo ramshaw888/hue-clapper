@@ -11,14 +11,12 @@ class PhilipsHue {
 
   initialiseLights(done) {
     const getLightsURL = `${this.bridgeIP}/api${this.username}/lights`;
-
-    request.get({
-      url: getLightsURL,
-    }, (error, response) => {
-      const lights = JSON.parse(response.body);
-      this.lights = Object.keys(lights);
-      console.log('Initialisation complete');
-      done();
+    fetch(getLightsURL).then((response) => {
+      response.json().then((lights) => {
+        this.lights = Object.keys(lights);
+        console.log('Initialisation complete');
+        done();
+      });
     });
   }
 
