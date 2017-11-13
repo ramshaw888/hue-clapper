@@ -1,15 +1,16 @@
 Hue Clapper
 ===
 
+A small node application that listens to claps from your computer's microphone
+and turns on/off your Phillips Hue lights.
+
 ## Getting Started
 
 ### Install JavaScript dependencies
-`npm install`
-`yarn`
+`npm install` or `yarn`
 
 ### [Sox](http://sox.sourceforge.net/) is required
-`brew install sox`
-`sudo apt-get install sox`
+`brew install sox` or `sudo apt-get install sox`
 
 ### Config
 Your Phillips Hue bridge should be on your local network. Add it's IP address
