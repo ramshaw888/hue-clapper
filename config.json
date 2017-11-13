@@ -1,6 +1,6 @@
 {
   "username": "NceTzVAJIG5dkG-Hypk177k8cRFldoiAJxa3Tc8P",
-  "bridge": "http://192.168.0.13",
+  "bridge": "http://192.168.0.4",
   "audioSource": "coreaudio default",
   "threshold": 0.4
 }
