@@ -9,17 +9,15 @@ const clapConfig = {
   CLAP_AMPLITUDE_THRESHOLD: config.threshold,
 };
 
-let state = false;
+let state = {
+  lightsOn: false,
+};
 
-const philipsHue = new PhilipsHue(config.bridge, config.username);
-philipsHue.initialiseLights(beginClap);
-
-function beginClap() {
-  clapDetector.start(clapConfig);
-  clapDetector.onClap(toggleLights.bind(this));
-}
-
-function toggleLights() {
-  philipsHue.setAllLights(state);
-  state = !state;
-}
+PhilipsHue.initialiseLights(config)
+  .then((lights) => {
+    clapDetector.start(clapConfig);
+    clapDetector.onClap(PhilipsHue.toggleLights(config, lights, state));
+  })
+  .catch((error) => {
+    console.error(`Error: ${error}`);
+  });

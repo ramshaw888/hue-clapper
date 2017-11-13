@@ -1,57 +1,49 @@
 "use strict";
 
-const request = require('request');
+const fetch = require('node-fetch');
 
-class PhilipsHue {
-  constructor(bridgeIP, username) {
-    this.bridgeIP = bridgeIP;
-    this.username = username;
-    this.lights = [];
-  }
-
-  initialiseLights(done) {
-    const getLightsURL = `${this.bridgeIP}/api${this.username}/lights`;
-
-    request.get({
-      url: getLightsURL,
-    }, (error, response) => {
-      const lights = JSON.parse(response.body);
-      this.lights = Object.keys(lights);
-      console.log('Initialisation complete');
-      done();
-    });
-  }
-
-  lightsList() {
-    return this.lights;
-  }
-
-  setLight(id, state) {
-    const setLightsURL = `${this.bridgeIP}/api${this.username}/lights/${id}/state`;
-    const command  = {
-      'on': state,
-    };
-    request.put({
-      url: setLightsURL,
-      json: command,
-    }, (error, response) => {
-      if (error) {
-        console.log('Failed to set light ' + id);
+const initialiseLights = (config) => {
+  const getLightsURL = `${config.bridge}/api${config.username}/lights`;
+  return fetch(getLightsURL)
+    .then((response) => {
+      if (response.status !== 200) {
+        return Promise.reject('Failed to initialise Hue lights');
       }
+      return response.json().then((body) => {
+        return Promise.resolve(Object.keys(body));
+      });
+    })
+    .catch((error) => {
+      console.error(`Error on initialisation: ${error}`);
     });
-  }
+};
 
-  setAllLights(state) {
-    if (state) {
-      console.log('Turning on lights ' + this.lights);
-    } else {
-      console.log('Turning off lights ' + this.lights);
+const toggleLight = (config, lightID, on) => fetch(
+  `${config.bridge}/api${config.username}/lights/${lightID}/state`,
+  {
+    method: 'PUT',
+    body: JSON.stringify({ on }),
+  })
+  .then((response) => {
+    if (response.status !== 200) {
+      return Promise.reject('Failed to set Hue lights');
     }
+    return Promise.resolve();
+  })
+  .catch((error) => {
+    console.error(`Error on setting lights: ${error}`);
+  });
 
-    for (const light of this.lights) {
-      this.setLight(light, state);
-    }
+const toggleLights = (config, lights, state) => {
+  return () => {
+    const lightsResponse = lights.map((lightID) => toggleLight(config, lightID, state.lightsOn));
+    Promise.all(lightsResponse).then((response) => {
+      state.lightsOn = !state.lightsOn;
+    });
   }
 }
 
-module.exports = PhilipsHue;
+module.exports = {
+  initialiseLights,
+  toggleLights,
+};
