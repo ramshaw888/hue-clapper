@@ -9,7 +9,7 @@ const clapConfig = {
   CLAP_AMPLITUDE_THRESHOLD: config.threshold,
 };
 
-let state = {
+const state = {
   lightsOn: false,
 };
 
